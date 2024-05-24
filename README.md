@@ -1,4 +1,4 @@
-# Terraform-Infrastructure-Provisioning-usingError-free-Jenkins-Pipeline
+# Terraform-Infrastructure-Provisioning-using-Error-free-Jenkins-Pipeline
 
 Creating a Jenkins pipeline to deploy infrastructure using Terraform involves several steps, from setting up Jenkins and Terraform to writing the pipeline script. 
 Here's a step-by-step guide:
