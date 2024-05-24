@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    environment {
+        // Define environment variables, e.g., AWS credentials
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+    }
+
+    stages {
+        stage('Clone repository') {
+            steps {
+                git 'https://github.com/your-repo/terraform-scripts.git'
+            }
+        }
+        
+        stage('Terraform Init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan -out plan.out'
+            }
+        }
+        
+        stage('Terraform Apply') {
+            steps {
+                input message: 'Approve the plan?', ok: 'Apply'
+                sh 'terraform apply tfplan'
+            }
+        }
+        
+        stage('Terraform Destroy') {
+            steps {
+                input message: 'Do you want to destroy the infrastructure?', ok: 'Destroy'
+                sh 'terraform destroy -auto-approve'
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
